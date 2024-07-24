@@ -1,8 +1,10 @@
 #include "engine/engine.hpp"
 
+
 Engine::Engine() {
-    this->init();
-    this->window->create();
+    int isInited = this->init();
+    int isWindowCreated = this->window->create();
+    int isWRendererCreated = this->renderer->create(this->window);
 }
 
 int Engine::init() {
@@ -10,8 +12,11 @@ int Engine::init() {
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return 1;
     }
+    return 0;
 }
 
 Engine::~Engine() {
+    this->window->~Window();
+    this->renderer->~Renderer();
     SDL_Quit();
 }
